@@ -6,10 +6,8 @@ import com.abdelrahman.data.remote_datasource.validate_remote.IValidateRemoteSou
 import com.abdelrahman.domain.R
 import com.abdelrahman.domain.models.StringWrapper
 import retrofit2.Response
-import javax.inject.Inject
-
 @Suppress("UNCHECKED_CAST")
-open class BaseRemoteDataSource @Inject constructor(
+open class BaseRemoteDataSource(
     private val iValidateRemoteSource: IValidateRemoteSource,
     private val iCheckNetworkState: ICheckNetworkState
 ) {
