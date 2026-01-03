@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="something_went_wrong">Something went wrong.</string>
-    <string name="no_internet_connection">No internet connection, ty again later.</string>
-    <string name="no_data">No data found.</string>
-</resources>
