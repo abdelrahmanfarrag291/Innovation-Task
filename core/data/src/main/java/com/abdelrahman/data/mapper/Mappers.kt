@@ -4,14 +4,14 @@ package com.abdelrahman.data.mapper
 
 import com.abdelrahman.data.remote_datasource.result.Result
 import com.abdelrahman.domain.models.DataState
-import com.abdelrahman.domain.models.ErrorTypes
+import com.abdelrahman.domain.models.ErrorModels
 
 fun <T, R> Result<T>.mapToDataState(mapDTO: (T) -> R): DataState<R> {
     return when (this) {
         is Result.ResultError -> {
             val error = this.error
             return DataState.DataError(
-                errorTypes = ErrorTypes.GeneralError(
+                errorModels = ErrorModels.GeneralError(
                     iconRes = com.abdelrahman.domain.R.drawable.ic_no_internet,
                     error = error!!,
                 )
@@ -19,7 +19,7 @@ fun <T, R> Result<T>.mapToDataState(mapDTO: (T) -> R): DataState<R> {
         }
 
         is Result.ResultNoInternetConnection -> DataState.DataError(
-            errorTypes = ErrorTypes.NoInternetConnectionError
+            errorModels = ErrorModels.NoInternetConnectionError
         )
 
         is Result.ResultSuccess<T> -> {
@@ -27,7 +27,7 @@ fun <T, R> Result<T>.mapToDataState(mapDTO: (T) -> R): DataState<R> {
             if (data is List<*>) {
                 if (data.isEmpty()) {
                     DataState.DataError(
-                        errorTypes = ErrorTypes.NoDataError
+                        errorModels = ErrorModels.NoDataError
                     )
                 } else {
                     DataState.DataSuccess(

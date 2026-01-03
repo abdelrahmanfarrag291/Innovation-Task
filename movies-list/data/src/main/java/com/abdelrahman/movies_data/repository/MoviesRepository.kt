@@ -2,7 +2,7 @@ package com.abdelrahman.movies_data.repository
 
 import com.abdelrahman.data.remote_datasource.result.Result
 import com.abdelrahman.domain.models.DataState
-import com.abdelrahman.domain.models.ErrorTypes
+import com.abdelrahman.domain.models.ErrorModels
 import com.abdelrahman.domain.models.StringWrapper
 import com.abdelrahman.movies_data.local.IMoviesLocalDataSource
 import com.abdelrahman.movies_data.mapper.asMovie
@@ -46,7 +46,7 @@ class MoviesRepository @Inject constructor(
     private suspend fun onMoviesNoInternetConnection(): DataState<MoviesDTO> {
         val getCachedMovies = iMoviesLocalDataSource.getAllMovies()
         return if (getCachedMovies.isEmpty()) {
-            DataState.DataError(errorTypes = ErrorTypes.NoInternetConnectionError)
+            DataState.DataError(errorModels = ErrorModels.NoInternetConnectionError)
         } else
             DataState.DataSuccess(
                 result = MoviesDTO(
@@ -60,7 +60,7 @@ class MoviesRepository @Inject constructor(
 
     private fun onMoviesResultError(error: StringWrapper?): DataState<MoviesDTO> {
         return DataState.DataError(
-            errorTypes = ErrorTypes.GeneralError(
+            errorModels = ErrorModels.GeneralError(
                 error = error!!,
                 iconRes = com.abdelrahman.domain.R.drawable.ic_no_internet
             )

@@ -3,12 +3,11 @@ package com.abdelrahman.movies_data.repository
 import com.abdelrahman.data.remote_datasource.result.Result
 import com.abdelrahman.domain.R
 import com.abdelrahman.domain.models.DataState
-import com.abdelrahman.domain.models.ErrorTypes
+import com.abdelrahman.domain.models.ErrorModels
 import com.abdelrahman.domain.models.StringWrapper
 import com.abdelrahman.movies_data.local.FakeMoviesDao
 import com.abdelrahman.movies_data.local.MoviesLocalDataSource
 import com.abdelrahman.movies_data.local.database.MoviesEntity
-import com.abdelrahman.movies_data.mapper.asMovieEntity
 import com.abdelrahman.movies_data.models.MovieResponse
 import com.abdelrahman.movies_data.models.MoviesResponse
 import com.abdelrahman.movies_data.remote.MoviesRemoteDataSource
@@ -17,7 +16,6 @@ import com.abdelrahman.movies_list_domain.entity.MoviesDTO
 import com.abdelrahman.movies_list_domain.repository.IMoviesRepository
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -53,7 +51,7 @@ class MoviesRepositoryShould {
         )
         whenever(moviesRemoteDataSource.getMovies()).thenReturn(moviesResult)
         val expected = DataState.DataError(
-            errorTypes = ErrorTypes.GeneralError(
+            errorModels = ErrorModels.GeneralError(
                 iconRes = R.drawable.ic_no_internet,
                 error = moviesResult.error!!
             )
@@ -90,7 +88,7 @@ class MoviesRepositoryShould {
             val moviesResult =
                 Result.ResultNoInternetConnection(error = StringWrapper.FromResource(R.string.no_internet_connection)) as Result<MoviesResponse>
             whenever(moviesRemoteDataSource.getMovies()).thenReturn(moviesResult)
-            val expected = DataState.DataError(errorTypes = ErrorTypes.NoInternetConnectionError)
+            val expected = DataState.DataError(errorModels = ErrorModels.NoInternetConnectionError)
             val actual = mIMoviesRepository.getMovies().first()
             assertEquals(expected, actual)
         }
