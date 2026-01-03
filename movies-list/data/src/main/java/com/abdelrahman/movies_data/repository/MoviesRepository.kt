@@ -30,15 +30,17 @@ class MoviesRepository @Inject constructor(
     }
 
     private suspend fun onMoviesSuccess(data: MoviesResponse): DataState<MoviesDTO> {
-        iMoviesLocalDataSource.saveAllMovies(data.movieResponses?.map {
-            it.asMovieEntity()
-        } as ArrayList)
+        val moviesAsEntity = data.movieResponses?.map {
+            return@map it.asMovieEntity()
+        }
+
+        iMoviesLocalDataSource.saveAllMovies(moviesAsEntity as ArrayList)
         return DataState.DataSuccess(
             result = MoviesDTO(
                 currentPage = data.page,
                 totalPages = data.totalPages,
                 moviesList = iMoviesLocalDataSource.getAllMovies().map {
-                    it.asMovie()
+                    return@map it.asMovie()
                 }
             )
         )
@@ -48,7 +50,7 @@ class MoviesRepository @Inject constructor(
         val getCachedMovies = iMoviesLocalDataSource.getAllMovies()
         return if (getCachedMovies.isEmpty()) {
             DataState.DataError(errorModels = ErrorModels.NoInternetConnectionError)
-        } else
+        } else {
             DataState.DataSuccess(
                 result = MoviesDTO(
                     totalPages = 1,
@@ -57,6 +59,7 @@ class MoviesRepository @Inject constructor(
                         return@map it.asMovie()
                     }
                 ))
+        }
     }
 
     private fun onMoviesResultError(error: StringWrapper?): DataState<MoviesDTO> {

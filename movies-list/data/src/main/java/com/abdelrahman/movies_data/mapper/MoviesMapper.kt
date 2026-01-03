@@ -7,7 +7,6 @@ import com.abdelrahman.movies_list_domain.entity.Movie
 
 fun MovieResponse.asMovieEntity(): MoviesEntity {
     return MoviesEntity(
-        id = 1,
         movieId = id,
         movieName = originalTitle,
         voteCount = voteCount,

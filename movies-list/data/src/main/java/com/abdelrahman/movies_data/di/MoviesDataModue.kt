@@ -48,6 +48,7 @@ abstract class MoviesDataModule {
                 .build()
                 .create()
         }
+
         @Provides
         @Singleton
         fun provideDatabase(
@@ -57,7 +58,9 @@ abstract class MoviesDataModule {
                 context,
                 MoviesDatabase::class.java,
                 MOVIES_DB
-            ).build()
+            )
+                .fallbackToDestructiveMigration()
+                .build()
 
         @Provides
         fun provideMovieDao(

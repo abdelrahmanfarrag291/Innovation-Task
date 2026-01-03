@@ -9,7 +9,7 @@ import com.abdelrahman.movies_data.utils.Constants.Database.MOVIES_TABLE_NAME
 )
 data class MoviesEntity(
     @PrimaryKey(autoGenerate = true)
-    val id : Int,
+    val id : Int?=null,
     val movieId: Int?=null,
     val movieName : String?=null,
     val voteCount: Int?=null,
