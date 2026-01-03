@@ -7,7 +7,7 @@ import javax.inject.Inject
 class CheckNetworkState @Inject constructor(
     private val mConnectivityManager: ConnectivityManager
 ) : ICheckNetworkState {
-    override fun isConnection(): Boolean {
+    override fun isConnected(): Boolean {
         val activeNetwork = mConnectivityManager.activeNetwork ?: return false
         val networkCapabilities =
             mConnectivityManager.getNetworkCapabilities(activeNetwork) ?: return false

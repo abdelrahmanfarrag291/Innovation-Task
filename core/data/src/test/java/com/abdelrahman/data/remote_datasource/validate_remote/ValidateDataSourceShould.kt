@@ -1,14 +1,12 @@
-package com.abdelrahman.data.remote_datasource
+package com.abdelrahman.data.remote_datasource.validate_remote
 
 import com.abdelrahman.data.helper.FakeErrorModel
 import com.abdelrahman.data.helper.TestHelper
 import com.abdelrahman.data.remote_datasource.result.Result
-import com.abdelrahman.data.remote_datasource.validate_remote.IValidateRemoteSource
-import com.abdelrahman.data.remote_datasource.validate_remote.ValidateRemoteSource
-import com.abdelrahman.data.utils.Constants.ErrorCodes.GENERAL_ERROR_CODE
+import com.abdelrahman.data.utils.Constants
 import com.abdelrahman.domain.R
 import com.abdelrahman.domain.models.StringWrapper
-import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
@@ -50,11 +48,11 @@ class ValidateDataSourceShould {
         whenever(fakeResponse.isSuccessful).thenThrow(RuntimeException(""))
         val expected =
             Result.ResultError(
-                errorCode = GENERAL_ERROR_CODE,
+                errorCode = Constants.ErrorCodes.GENERAL_ERROR_CODE,
                 error = StringWrapper.FromResource(R.string.something_went_wrong)
             )
         val actual = validateRemoteSource.validate(fakeResponse)
-        assertEquals(expected, actual)
+        TestCase.assertEquals(expected, actual)
     }
 
     @Test
@@ -69,7 +67,7 @@ class ValidateDataSourceShould {
                     error = StringWrapper.FromString("error")
                 )
             val actual = validateRemoteSource.validate(fakeResponse)
-            assertEquals(expected, actual)
+            TestCase.assertEquals(expected, actual)
         }
 
     @Test
@@ -80,11 +78,11 @@ class ValidateDataSourceShould {
             whenever(fakeResponse.errorBody()).thenReturn(null)
             val expected =
                 Result.ResultError(
-                    errorCode = GENERAL_ERROR_CODE,
+                    errorCode = Constants.ErrorCodes.GENERAL_ERROR_CODE,
                     error = StringWrapper.FromResource(R.string.something_went_wrong)
                 )
             val actual = validateRemoteSource.validate(fakeResponse)
-            assertEquals(expected, actual)
+            TestCase.assertEquals(expected, actual)
         }
 
     @Test
@@ -98,7 +96,7 @@ class ValidateDataSourceShould {
                     data = ""
                 )
             val actual = validateRemoteSource.validate(fakeResponse)
-            assertEquals(expected, actual)
+            TestCase.assertEquals(expected, actual)
         }
 
     @Test
@@ -109,11 +107,11 @@ class ValidateDataSourceShould {
             whenever(fakeResponse.body()).thenReturn(null)
             val expected =
                 Result.ResultError(
-                    errorCode = GENERAL_ERROR_CODE,
+                    errorCode = Constants.ErrorCodes.GENERAL_ERROR_CODE,
                     error = StringWrapper.FromResource(R.string.something_went_wrong)
                 )
             val actual = validateRemoteSource.validate(fakeResponse)
-            assertEquals(expected, actual)
+            TestCase.assertEquals(expected, actual)
 
         }
 
