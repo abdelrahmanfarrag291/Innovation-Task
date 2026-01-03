@@ -1,4 +1,4 @@
-package com.abdelrahman.movies_data
+package com.abdelrahman.movies_list_domain
 
 import org.junit.Test
 

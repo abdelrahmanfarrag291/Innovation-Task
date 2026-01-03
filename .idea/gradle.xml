@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/core/domain" />
             <option value="$PROJECT_DIR$/movies-list" />
             <option value="$PROJECT_DIR$/movies-list/data" />
+            <option value="$PROJECT_DIR$/movies-list/domain" />
           </set>
         </option>
       </GradleProjectSettings>

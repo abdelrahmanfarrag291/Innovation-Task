@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.abdelrahman.innovation_task.ui.theme.InnovationTaskTheme
 import com.abdelrahman.movies_data.remote.MoviesRemoteDataSource
+import com.abdelrahman.movies_list_domain.repository.IMoviesRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,13 +23,15 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
-    lateinit var iMoviesRemoteDataSource: MoviesRemoteDataSource
+    lateinit var iMoviesRemoteDataSource: IMoviesRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         lifecycleScope.launch {
-            val x = iMoviesRemoteDataSource.getMovies()
-            Log.d("printddd",x.toString())
+         iMoviesRemoteDataSource.getMovies().collect {
+                Log.d("printddd",it.toString())
+            }
+
         }
         setContent {
             InnovationTaskTheme {

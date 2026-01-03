@@ -42,6 +42,11 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.bundles.networking)
     testImplementation(libs.bundles.unitTest)
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
     ksp(libs.hilt.compiler)
+    implementation(project(":movies-list:domain"))
     implementation(project(":core:data"))
+    implementation(project(":core:domain"))
+
 }
