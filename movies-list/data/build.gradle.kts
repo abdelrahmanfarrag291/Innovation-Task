@@ -11,6 +11,11 @@ android {
     compileSdk {
         version = release(36)
     }
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
+    }
 
     defaultConfig {
         minSdk = 24
@@ -35,6 +40,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    ndkVersion = "29.0.14206865"
 }
 
 dependencies {
