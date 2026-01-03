@@ -16,7 +16,6 @@ import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import retrofit2.Response
-import kotlin.math.exp
 
 /**
  * ValidateRemoteSource class is responsible for mapping retrofit response from Response<T> into more meaningful class
@@ -31,6 +30,7 @@ import kotlin.math.exp
  *    2- Scenario : when API isSuccessful is false,and errorBody is not null => it must looks for errorModel obtained from API.
  *    3- Scenario : when API isSuccessful is false,and errorBody is null => it should returns errorCode 999 and something went wrong message.
  *    4- Scenario : when API isSuccessful is true,and body is not null => it should returns the body.
+ *    5- Scenario : when API isSuccessful is true,and body is null => it should returns general error with general code.
  */
 
 class ValidateDataSourceShould {
