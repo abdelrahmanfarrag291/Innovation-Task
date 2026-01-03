@@ -64,5 +64,6 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
+    implementation(project(":movies-list:data"))
 
 }

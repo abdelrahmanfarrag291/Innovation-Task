@@ -31,7 +31,10 @@ class ValidateRemoteSource @Inject constructor(
                     val error = iErrorModel.parseErrorModel(errorBody.string())
                     Result.ResultError(
                         errorCode = error.code,
-                        error = StringWrapper.FromString(error.message.orEmpty())
+                        error = if (error.message.isNullOrEmpty())
+                            StringWrapper.FromResource(R.string.something_went_wrong)
+                        else
+                            StringWrapper.FromString(error.message)
                     )
                 } else {
                     Result.ResultError(

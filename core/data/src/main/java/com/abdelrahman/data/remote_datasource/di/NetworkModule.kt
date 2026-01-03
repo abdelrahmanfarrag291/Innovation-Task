@@ -1,5 +1,6 @@
 package com.abdelrahman.data.remote_datasource.di
 
+import com.abdelrahman.data.BuildConfig
 import com.abdelrahman.data.remote_datasource.interceptor.INetworkInterceptor
 import com.abdelrahman.data.utils.Constants
 import com.google.gson.Gson
@@ -21,10 +22,12 @@ object NetworkModule {
     @Singleton
     fun providesHTTPLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = if (BuildConfig.DEBUG)
+                HttpLoggingInterceptor.Level.BODY
+            else
+                HttpLoggingInterceptor.Level.NONE
         }
     }
-
     @Provides
     @Singleton
     fun providesGson(): Gson {
