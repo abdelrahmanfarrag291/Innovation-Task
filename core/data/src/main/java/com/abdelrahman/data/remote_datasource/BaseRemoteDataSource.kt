@@ -12,7 +12,7 @@ open class BaseRemoteDataSource(
     private val iCheckNetworkState: ICheckNetworkState
 ) {
 
-    suspend fun <T> safeAPICALL(apiCall: () -> Response<T>): Result<T> {
+    suspend fun <T> safeAPICALL(apiCall:suspend () -> Response<T>): Result<T> {
         return if (iCheckNetworkState.isConnected())
             iValidateRemoteSource.validate(apiCall())
         else
