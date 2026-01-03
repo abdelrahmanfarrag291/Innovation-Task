@@ -2,16 +2,19 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hiltAndroid)
+    alias(libs.plugins.kotlinAndroidKsp)
+
 }
 
 android {
-    namespace = "com.example.innovation_task"
+    namespace = "com.abdelrahman.innovation_task"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.innovation_task"
+        applicationId = "com.abdelrahman.innovation_task"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -57,4 +60,9 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(project(":core:data"))
+    implementation(project(":core:domain"))
+
 }

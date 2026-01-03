@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Innovation-Task"
 include(":app")
- 
+include(":core")
+include(":core:data")
+include(":core:domain")
