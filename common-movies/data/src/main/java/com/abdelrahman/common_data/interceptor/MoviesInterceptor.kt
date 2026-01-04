@@ -1,10 +1,10 @@
-package com.abdelrahman.movies_data.interceptor
+package com.abdelrahman.common_data.interceptor
 
+import com.abdelrahman.common_data.remote.ApiKey
+import com.abdelrahman.common_data.utils.Constants.LANGUAGE_ENGLISH
+import com.abdelrahman.common_data.utils.Constants.Network.ACCEPT_LANGUAGE
+import com.abdelrahman.common_data.utils.Constants.Network.AUTHORIZATION
 import com.abdelrahman.data.remote_datasource.interceptor.INetworkInterceptor
-import com.abdelrahman.movies_data.remote.ApiKey
-import com.abdelrahman.movies_data.utils.Constants.LANGUAGE_ENGLISH
-import com.abdelrahman.movies_data.utils.Constants.Network.ACCEPT_LANGUAGE
-import com.abdelrahman.movies_data.utils.Constants.Network.AUTHORIZATION
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

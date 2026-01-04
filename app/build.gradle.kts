@@ -56,6 +56,8 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
     implementation(project(":core:presentation"))
+    implementation(project(":common-movies:data"))
+
     implementation(project(":movies-list:data"))
     implementation(project(":movies-list:domain"))
     implementation(project(":movies-list:presentation"))

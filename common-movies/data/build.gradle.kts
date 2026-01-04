@@ -7,16 +7,28 @@ plugins {
 }
 
 android {
-    namespace = "com.abdelrahman.movies_data"
+    namespace = "com.abdelrahman.common_data"
     compileSdk {
         version = release(36)
     }
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
+    }
+
     defaultConfig {
         minSdk = 24
+        buildConfigField("String", "TMDB_SERVER_URL", "\"https://api.themoviedb.org/3/\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    buildFeatures{
+        buildConfig = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -26,7 +38,6 @@ android {
             )
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -34,20 +45,15 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    ndkVersion = "29.0.14206865"
+
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.bundles.networking)
-    testImplementation(libs.bundles.unitTest)
-    implementation(libs.bundles.room)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    ksp(libs.room.compiler)
-    implementation(project(":movies-list:domain"))
     implementation(project(":core:data"))
-    implementation(project(":core:domain"))
-    implementation(project(":common-movies:data"))
-
-
 }

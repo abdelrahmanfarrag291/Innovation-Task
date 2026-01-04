@@ -3,7 +3,7 @@
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_abdelrahman_movies_1data_remote_ApiKey_getApiKey(
+Java_com_abdelrahman_common_1data_remote_ApiKey_getApiKey(
         JNIEnv *env,
         jobject
 ) {

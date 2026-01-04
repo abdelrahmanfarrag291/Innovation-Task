@@ -2,10 +2,9 @@ package com.abdelrahman.movies_data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.abdelrahman.movies_data.BuildConfig
 import com.abdelrahman.data.remote_datasource.error.IErrorModel
 import com.abdelrahman.data.remote_datasource.interceptor.INetworkInterceptor
-import com.abdelrahman.movies_data.interceptor.MoviesInterceptor
+import com.abdelrahman.common_data.interceptor.MoviesInterceptor
 import com.abdelrahman.movies_data.local.IMoviesLocalDataSource
 import com.abdelrahman.movies_data.local.MoviesLocalDataSource
 import com.abdelrahman.movies_data.local.database.MoviesDao
@@ -38,14 +37,9 @@ abstract class MoviesDataModule {
         @Provides
         @Singleton
         fun providesMoviesAPI(
-            client: OkHttpClient,
-            gson: Gson
+            retrofit: Retrofit
         ): MoviesAPI {
-            return Retrofit.Builder()
-                .baseUrl(BuildConfig.TMDB_SERVER_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client)
-                .build()
+            return retrofit
                 .create()
         }
 

@@ -1,4 +1,4 @@
-package com.abdelrahman.movies_data.remote
+package com.abdelrahman.common_data.remote
 
 object ApiKey {
     init {

@@ -1,6 +1,5 @@
 package com.abdelrahman.presentation.viewmodel.pagingviewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.presentation.viewmodel.Event
@@ -17,11 +16,28 @@ import kotlinx.coroutines.launch
 
 abstract class PagingViewModel<STATE : State, EVENT : Event, ONE_TIME_ACTION : OneTimeAction> :
     ViewModel() {
+    private val initialState by lazy {
+        createInitialState()
+    }
+    abstract fun createInitialState(): STATE
+    private val _state: MutableStateFlow<STATE> = MutableStateFlow(initialState)
+    val state: StateFlow<STATE> = _state
+
+    private val _events: MutableSharedFlow<EVENT> = MutableSharedFlow()
+    val events = _events
+
+    private val _oneTimeAction: Channel<ONE_TIME_ACTION> = Channel()
+    val oneTimeAction = _oneTimeAction.receiveAsFlow()
+
+    val currentState: STATE
+        get() = state.value
 
     private var _pagingState = MutableStateFlow(PagingState(1, 1))
     val pagingState: StateFlow<PagingState> = _pagingState
 
-    abstract fun createInitialState(): STATE
+    init {
+        subscribeToEvents()
+    }
     open fun onEvent(event: Event) {
         when (event) {
             PagingEvents.OnLoadNextPage -> onLoadNextPage()
@@ -55,26 +71,6 @@ abstract class PagingViewModel<STATE : State, EVENT : Event, ONE_TIME_ACTION : O
         if (mCurrentPage <= totalPages) {
             onRequestNextPage((pagingState.currentPage ?: 0) + 1)
         }
-    }
-
-    private val initialState by lazy {
-        createInitialState()
-    }
-
-    private val _state: MutableStateFlow<STATE> = MutableStateFlow(initialState)
-    val state: StateFlow<STATE> = _state
-
-    private val _events: MutableSharedFlow<EVENT> = MutableSharedFlow()
-    val events = _events
-
-    private val _oneTimeAction: Channel<ONE_TIME_ACTION> = Channel()
-    val oneTimeAction = _oneTimeAction.receiveAsFlow()
-
-    val currentState: STATE
-        get() = state.value
-
-    init {
-        subscribeToEvents()
     }
 
     private fun subscribeToEvents() {
