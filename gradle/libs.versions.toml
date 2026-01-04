@@ -25,10 +25,7 @@ navigationCompose = "2.8.5"
 hiltNavigationCompose = "1.2.0"
 serialization = "1.6.3"
 coil = "2.4.0"
-
-
-
-
+compose-animation = "1.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,7 +41,6 @@ androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion" }
@@ -62,6 +58,7 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose-animation" }
 
 
 
@@ -69,7 +66,7 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 networking = ["retrofit", "retrofitGson", "okhttp", "loggingInterceptor"]
 unitTest = ["mockito-core", "mockito-kotlin", "turbine", "junit", "coroutines-test"]
 room = ["room-runtime", "room-ktx"]
-android-compose = ["coil-compose", "androidx-navigation-compose", "androidx-hilt-navigation-compose", "androidx-lifecycle-runtime-ktx", "androidx-activity-compose", "androidx-compose-ui", "androidx-compose-ui-graphics", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-material3", "androidx-appcompat"]
+android-compose = ["compose-animation","coil-compose", "androidx-navigation-compose", "androidx-hilt-navigation-compose", "androidx-lifecycle-runtime-ktx", "androidx-activity-compose", "androidx-compose-ui", "androidx-compose-ui-graphics", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-material3", "androidx-appcompat"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
