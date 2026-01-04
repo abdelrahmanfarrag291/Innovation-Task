@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -60,28 +61,30 @@ fun <T> PagingComponent(
             }
     }
 
-    PullToRefreshBox(
-        modifier = modifier
-            .fillMaxSize()
-            .systemBarsPadding(),
-        isRefreshing = isRefreshing,
-        state = pullRefreshState,
-        onRefresh = {
-            if (source.isNotEmpty())
-                onRefresh()
-        }
-
-    ) {
-        if (errorModel != null) {
+    if (errorModel != null) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             PagingError(
                 Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center), errorModel
+                    .wrapContentSize(), errorModel
             )
-        } else {
-            if (loadingTypes == LoadingTypes.FullScreenLoading) {
+        }
+    } else {
+        if (loadingTypes == LoadingTypes.FullScreenLoading) {
+            Box(modifier = Modifier.fillMaxSize()) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            } else {
+            }
+        } else {
+            PullToRefreshBox(
+                modifier = modifier
+                    .fillMaxSize()
+                    .systemBarsPadding(),
+                isRefreshing = isRefreshing,
+                state = pullRefreshState,
+                onRefresh = {
+                    if (source.isNotEmpty())
+                        onRefresh()
+                }
+            ) {
                 LazyColumn(
                     state = lazyListState, modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(dimensionResource(R.dimen.dimen_16)),
@@ -105,8 +108,8 @@ fun <T> PagingComponent(
                 }
             }
         }
-
     }
+
 }
 
 @Composable

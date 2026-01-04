@@ -50,7 +50,7 @@ class MoviesRepository @Inject constructor(
     }
 
     private suspend fun onMoviesNoInternetConnection(): DataState<MoviesDTO> {
-        val getCachedMovies = iMoviesLocalDataSource.getAllMovies(1)
+        val getCachedMovies = iMoviesLocalDataSource.getAllMovies(0)
         return if (getCachedMovies.isEmpty()) {
             DataState.DataError(errorModels = ErrorModels.NoInternetConnectionError)
         } else {
