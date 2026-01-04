@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -66,39 +65,42 @@ fun <T> PagingComponent(
             .systemBarsPadding(),
         isRefreshing = isRefreshing,
         state = pullRefreshState,
-        onRefresh={
-            onRefresh()
+        onRefresh = {
+            if (source.isNotEmpty())
+                onRefresh()
         }
 
     ) {
         if (errorModel != null) {
-            PagingError(Modifier.fillMaxSize().align(Alignment.Center), errorModel)
+            PagingError(Modifier
+                .fillMaxSize()
+                .align(Alignment.Center), errorModel)
         } else {
             if (loadingTypes == LoadingTypes.FullScreenLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             } else {
-                    LazyColumn(
-                        state = lazyListState, modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(source) {
-                            listItem(it)
-                        }
-                        if (loadingTypes == LoadingTypes.PaginationLoading) {
-                            item {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(16.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    CircularProgressIndicator()
-                                }
+                LazyColumn(
+                    state = lazyListState, modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(source) {
+                        listItem(it)
+                    }
+                    if (loadingTypes == LoadingTypes.PaginationLoading) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
                             }
                         }
                     }
                 }
+            }
         }
 
     }

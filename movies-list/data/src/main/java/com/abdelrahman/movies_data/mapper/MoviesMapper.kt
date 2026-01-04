@@ -2,6 +2,8 @@ package com.abdelrahman.movies_data.mapper
 
 import com.abdelrahman.movies_data.local.database.MoviesEntity
 import com.abdelrahman.movies_data.models.MovieResponse
+import com.abdelrahman.movies_data.utils.Constants.BASE_IMAGE_URL_154
+import com.abdelrahman.movies_data.utils.Constants.BASE_IMAGE_URL_500
 import com.abdelrahman.movies_list_domain.entity.Movie
 
 
@@ -23,8 +25,8 @@ fun MoviesEntity.asMovie(): Movie {
         movieName = movieName,
         voteCount = voteCount,
         voteAverage = voteAverage,
-        backdropPath = "https://image.tmdb.org/t/p/w500/$backdropPath",
-        posterPath = "https://image.tmdb.org/t/p/w154/$posterPath",
+        backdropPath = "$BASE_IMAGE_URL_500$backdropPath",
+        posterPath = "$BASE_IMAGE_URL_154$posterPath",
         overview = overview
     )
 }

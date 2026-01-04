@@ -30,21 +30,21 @@ class MoviesRepository @Inject constructor(
     }
 
     private suspend fun onMoviesSuccess(data: MoviesResponse): DataState<MoviesDTO> {
-        val moviesAsEntity = data.movieResponses?.map {
-            return@map it.asMovieEntity()
-        }
+        val page = data.page ?: 1
+        if (page == 1) iMoviesLocalDataSource.clearAllMovies()
+        val moviesEntities = data.movieResponses
+            ?.map { it.asMovieEntity() }
+            ?.toList() ?: emptyList()
+        iMoviesLocalDataSource.saveAllMovies(moviesEntities)
+        val moviesFromDb = iMoviesLocalDataSource.getAllMovies(page - 1)
+            .map { it.asMovie() }
+            .toCollection(ArrayList())
 
-        iMoviesLocalDataSource.saveAllMovies(moviesAsEntity as ArrayList)
         return DataState.DataSuccess(
             result = MoviesDTO(
-                currentPage = data.page,
+                currentPage = page,
                 totalPages = data.totalPages,
-                moviesList =
-                    iMoviesLocalDataSource.getAllMovies(
-                        data.page ?: 1
-                    ).map {
-                        return@map it.asMovie()
-                    } as ArrayList
+                moviesList = moviesFromDb
             )
         )
     }

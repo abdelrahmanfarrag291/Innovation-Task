@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         minSdk = 24
-
+        buildConfigField("String", "TMDB_SERVER_URL", "\"https://api.themoviedb.org/3/\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -32,6 +32,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

@@ -2,6 +2,7 @@ package com.abdelrahman.movies_data.interceptor
 
 import com.abdelrahman.data.remote_datasource.interceptor.INetworkInterceptor
 import com.abdelrahman.movies_data.remote.ApiKey
+import com.abdelrahman.movies_data.utils.Constants.LANGUAGE_ENGLISH
 import com.abdelrahman.movies_data.utils.Constants.Network.ACCEPT_LANGUAGE
 import com.abdelrahman.movies_data.utils.Constants.Network.AUTHORIZATION
 import okhttp3.Interceptor
@@ -13,7 +14,7 @@ class MoviesInterceptor @Inject constructor() : INetworkInterceptor {
         val originalRequest = chain.request()
         val originalURl = originalRequest.url
         val newUrl = originalURl.newBuilder()
-            .addQueryParameter(ACCEPT_LANGUAGE, "en")
+            .addQueryParameter(ACCEPT_LANGUAGE, LANGUAGE_ENGLISH)
             .build()
         val newRequest = originalRequest.newBuilder()
             .url(newUrl)

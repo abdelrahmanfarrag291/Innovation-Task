@@ -2,6 +2,7 @@ package com.abdelrahman.movies_data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.abdelrahman.movies_data.BuildConfig
 import com.abdelrahman.data.remote_datasource.error.IErrorModel
 import com.abdelrahman.data.remote_datasource.interceptor.INetworkInterceptor
 import com.abdelrahman.movies_data.interceptor.MoviesInterceptor
@@ -9,7 +10,6 @@ import com.abdelrahman.movies_data.local.IMoviesLocalDataSource
 import com.abdelrahman.movies_data.local.MoviesLocalDataSource
 import com.abdelrahman.movies_data.local.database.MoviesDao
 import com.abdelrahman.movies_data.local.database.MoviesDatabase
-import com.abdelrahman.movies_data.models.MoviesErrorModel
 import com.abdelrahman.movies_data.remote.ErrorParsing
 import com.abdelrahman.movies_data.remote.MoviesAPI
 import com.abdelrahman.movies_data.remote.MoviesRemoteDataSource
@@ -42,7 +42,7 @@ abstract class MoviesDataModule {
             gson: Gson
         ): MoviesAPI {
             return Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/")
+                .baseUrl(BuildConfig.TMDB_SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()
