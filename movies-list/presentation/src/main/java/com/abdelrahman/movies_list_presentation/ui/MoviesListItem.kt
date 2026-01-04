@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -29,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.abdelrahman.movies_list_domain.entity.Movie
+import com.abdelrahman.presentation.R
 import java.util.Locale
 
 @Composable
@@ -40,8 +43,8 @@ fun MoviesListItem(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentWidth(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.elevatedCardElevation(0.dp),
+        shape = RoundedCornerShape(dimensionResource(R.dimen.dimen_16)),
+        elevation = CardDefaults.elevatedCardElevation(dimensionResource(R.dimen.dimen_0)),
     ) {
         Column(
             modifier = Modifier
@@ -51,7 +54,7 @@ fun MoviesListItem(
             Box(modifier = Modifier.aspectRatio(16f / 9f)) {
                 AsyncImage(
                     model = movie.backdropPath,
-                    contentDescription = "title",
+                    contentDescription = movie.movieName,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -68,15 +71,15 @@ fun MoviesListItem(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .size(120.dp)
-                        .clip(RoundedCornerShape(99.dp))
+                        .size(dimensionResource(R.dimen.dimen_120))
+                        .clip(RoundedCornerShape(dimensionResource(R.dimen.dimen_120)))
                 )
             }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(paddingValues = PaddingValues(8.dp)),
+                    .padding(paddingValues = PaddingValues(dimensionResource(R.dimen.dimen_8))),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -87,21 +90,25 @@ fun MoviesListItem(
                         modifier = Modifier
                             .wrapContentWidth()
                             .padding(
-                                end = 16.dp
+                                end = dimensionResource(R.dimen.dimen_16)
                             ),
-                        text = movie.overview.orEmpty(), style = TextStyle(
+                        text = movie.overview.orEmpty(),
+                        style = TextStyle(
                             color = Color.Black,
-                        ), fontSize = 12.sp, maxLines = 2, overflow = TextOverflow.Ellipsis
+                        ),
+                        fontSize = dimensionResource(R.dimen.text_12).value.sp,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
                 Card(
                     modifier = modifier
                         .wrapContentWidth(),
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.dimen_16)),
                     colors = CardDefaults.cardColors(
                         containerColor = Color.Yellow
                     ),
-                    elevation = CardDefaults.elevatedCardElevation(0.dp),
+                    elevation = CardDefaults.elevatedCardElevation(dimensionResource(R.dimen.dimen_0)),
                 ) {
                     Column(
                         modifier = Modifier
@@ -110,14 +117,18 @@ fun MoviesListItem(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            "Rating", style = TextStyle(
+                            stringResource(R.string.rating), style = TextStyle(
                                 color = Color.Black,
                             ), fontSize = 12.sp, fontWeight = FontWeight.Normal
                         )
                         Text(
-                            String.format(Locale.US, "%.2f", movie.voteAverage), style = TextStyle(
+                            String.format(
+                                Locale.US,
+                                stringResource(R.string.rating_format),
+                                movie.voteAverage
+                            ), style = TextStyle(
                                 color = Color.Black,
-                            ), fontSize = 12.sp, fontWeight = FontWeight.Bold
+                            ), fontSize = dimensionResource(R.dimen.text_12).value.sp, fontWeight = FontWeight.Bold
                         )
                     }
                 }
@@ -126,13 +137,14 @@ fun MoviesListItem(
                 Modifier
                     .fillMaxWidth()
                     .background(Color.Black.copy(alpha = .5f))
-                    .padding(PaddingValues(vertical = 8.dp)), contentAlignment = Alignment.Center
+                    .padding(PaddingValues(vertical = dimensionResource(R.dimen.dimen_8))),
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = movie.movieName.orEmpty(), style = TextStyle(
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = dimensionResource(R.dimen.text_16).value.sp
                     )
                 )
             }

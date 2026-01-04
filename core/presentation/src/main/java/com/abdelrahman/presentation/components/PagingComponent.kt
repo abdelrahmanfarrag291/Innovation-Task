@@ -18,9 +18,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
 import com.abdelrahman.domain.models.ErrorModels
 import com.abdelrahman.presentation.LoadingTypes
+import com.abdelrahman.presentation.R
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
@@ -72,17 +73,19 @@ fun <T> PagingComponent(
 
     ) {
         if (errorModel != null) {
-            PagingError(Modifier
-                .fillMaxSize()
-                .align(Alignment.Center), errorModel)
+            PagingError(
+                Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center), errorModel
+            )
         } else {
             if (loadingTypes == LoadingTypes.FullScreenLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             } else {
                 LazyColumn(
                     state = lazyListState, modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    contentPadding = PaddingValues(dimensionResource(R.dimen.dimen_16)),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimen_8))
                 ) {
                     items(source) {
                         listItem(it)
@@ -92,7 +95,7 @@ fun <T> PagingComponent(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(16.dp),
+                                    .padding(dimensionResource(R.dimen.dimen_16)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 CircularProgressIndicator()
