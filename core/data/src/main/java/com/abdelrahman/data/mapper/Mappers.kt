@@ -5,25 +5,24 @@ package com.abdelrahman.data.mapper
 import com.abdelrahman.data.remote_datasource.result.Result
 import com.abdelrahman.domain.models.DataState
 import com.abdelrahman.domain.models.ErrorModels
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
-fun <T, R> Result<T>.mapToDataState(mapDTO: (T) -> R): DataState<R> {
-    return when (this) {
-        is Result.ResultError -> {
-            val error = this.error
-            return DataState.DataError(
+fun <T, R> Result<T>.mapToDataState(mapDTO: (T) -> R): Flow<DataState<R>> {
+    val data= when (this) {
+        is Result.ResultError -> DataState.DataError(
                 errorModels = ErrorModels.GeneralError(
                     iconRes = com.abdelrahman.domain.R.drawable.ic_no_internet,
-                    error = error!!,
+                    error = this.error!!,
                 )
-            ) as DataState<R>
-        }
+            )
+
 
         is Result.ResultNoInternetConnection -> DataState.DataError(
             errorModels = ErrorModels.NoInternetConnectionError
         )
 
         is Result.ResultSuccess<T> -> {
-
             if (data is List<*>) {
                 if (data.isEmpty()) {
                     DataState.DataError(
@@ -32,7 +31,7 @@ fun <T, R> Result<T>.mapToDataState(mapDTO: (T) -> R): DataState<R> {
                 } else {
                     DataState.DataSuccess(
                         result = data.map {
-                            mapDTO(it as T)
+                         return@map   mapDTO(it as T)
                         }
                     )
                 }
@@ -42,4 +41,5 @@ fun <T, R> Result<T>.mapToDataState(mapDTO: (T) -> R): DataState<R> {
                 )
         }
     } as DataState<R>
+    return flow { emit(data) }
 }

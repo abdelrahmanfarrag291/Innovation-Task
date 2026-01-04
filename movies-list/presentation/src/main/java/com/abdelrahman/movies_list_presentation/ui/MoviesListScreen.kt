@@ -1,5 +1,6 @@
 package com.abdelrahman.movies_list_presentation.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,6 +24,7 @@ fun MoviesListScreen(
     moviesList: List<Movie> = listOf(),
     errorModels: ErrorModels?,
     loadingTypes: LoadingTypes,
+    onNavigate : (Int)-> Unit ={},
     onEvent: (Event) -> Unit = {}
 ) {
     val event by rememberUpdatedState(onEvent)
@@ -38,7 +40,9 @@ fun MoviesListScreen(
         },
         source = moviesList
     ) { movie ->
-        MoviesListItem(movie = movie)
+        MoviesListItem(modifier = Modifier.clickable(onClick ={
+            onNavigate(movie.movieId?:-1)
+        }),movie = movie)
     }
 }
 

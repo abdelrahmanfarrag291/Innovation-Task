@@ -1,9 +1,9 @@
 package com.abdelrahman.movies_data.mapper
 
+import com.abdelrahman.common_data.utils.Constants.BASE_IMAGE_URL_154
+import com.abdelrahman.common_data.utils.Constants.BASE_IMAGE_URL_500
 import com.abdelrahman.movies_data.local.database.MoviesEntity
 import com.abdelrahman.movies_data.models.MovieResponse
-import com.abdelrahman.movies_data.utils.Constants.BASE_IMAGE_URL_154
-import com.abdelrahman.movies_data.utils.Constants.BASE_IMAGE_URL_500
 import com.abdelrahman.movies_list_domain.entity.Movie
 
 

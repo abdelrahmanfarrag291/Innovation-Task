@@ -2,30 +2,23 @@ package com.abdelrahman.movies_data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.abdelrahman.data.remote_datasource.error.IErrorModel
-import com.abdelrahman.data.remote_datasource.interceptor.INetworkInterceptor
-import com.abdelrahman.common_data.interceptor.MoviesInterceptor
 import com.abdelrahman.movies_data.local.IMoviesLocalDataSource
 import com.abdelrahman.movies_data.local.MoviesLocalDataSource
 import com.abdelrahman.movies_data.local.database.MoviesDao
 import com.abdelrahman.movies_data.local.database.MoviesDatabase
-import com.abdelrahman.movies_data.remote.ErrorParsing
 import com.abdelrahman.movies_data.remote.MoviesAPI
 import com.abdelrahman.movies_data.remote.MoviesRemoteDataSource
 import com.abdelrahman.movies_data.remote.MoviesRemoteSourceImpl
 import com.abdelrahman.movies_data.repository.MoviesRepository
 import com.abdelrahman.movies_data.utils.Constants.Database.MOVIES_DB
 import com.abdelrahman.movies_list_domain.repository.IMoviesRepository
-import com.google.gson.Gson
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
 
@@ -70,13 +63,6 @@ abstract class MoviesDataModule {
     @Singleton
     abstract fun bindsMoviesLocalDataSource(moviesLocalDataSource: MoviesLocalDataSource): IMoviesLocalDataSource
 
-    @Binds
-    @Singleton
-    abstract fun bindsInterceptor(moviesInterceptor: MoviesInterceptor): INetworkInterceptor
-
-    @Binds
-    @Singleton
-    abstract fun bindsErrorModel(moviesErrorModel: ErrorParsing): IErrorModel
 
     @Binds
     @Singleton

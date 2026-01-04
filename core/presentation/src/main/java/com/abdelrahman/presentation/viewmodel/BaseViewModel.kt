@@ -14,7 +14,7 @@ abstract class BaseViewModel<
         STATE : State, EVENT : Event, ONE_TIME_ACTION : OneTimeAction> : ViewModel() {
 
     abstract fun createInitialState(): STATE
-    abstract fun onEvent(event: Event)
+    abstract fun onEvent(event: EVENT)
 
     private val initialState by lazy {
         createInitialState()

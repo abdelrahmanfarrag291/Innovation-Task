@@ -1,27 +1,24 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hiltAndroid)
-    alias(libs.plugins.kotlinAndroidKsp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlinAndroidKsp)
 
 }
 
 android {
-    namespace = "com.abdelrahman.innovation_task"
+    namespace = "com.abdelrahman.movie_detail_presentation"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.abdelrahman.innovation_task"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -51,19 +48,10 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.android.compose)
-    implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    implementation(project(":core:data"))
-    implementation(project(":core:domain"))
+    implementation(libs.hilt.android)
     implementation(project(":core:presentation"))
-    implementation(project(":common-movies:data"))
-
-    implementation(project(":movies-list:data"))
-    implementation(project(":movies-list:domain"))
-    implementation(project(":movies-list:presentation"))
-    implementation(project(":movie-details:data"))
     implementation(project(":movie-details:domain"))
-    implementation(project(":movie-details:presentation"))
-
+    implementation(project(":core:domain"))
     implementation(libs.kotlinx.serialization.json)
 }

@@ -1,4 +1,4 @@
-package com.abdelrahman.movies_data.models
+package com.abdelrahman.common_data.remote.models
 
 import com.google.gson.annotations.SerializedName
 

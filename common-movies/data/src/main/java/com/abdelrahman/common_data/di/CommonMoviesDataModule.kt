@@ -1,6 +1,11 @@
 package com.abdelrahman.common_data.di
 
+import com.abdelrahman.common_data.interceptor.MoviesInterceptor
+import com.abdelrahman.common_data.remote.ErrorParsing
+import com.abdelrahman.data.remote_datasource.error.IErrorModel
+import com.abdelrahman.data.remote_datasource.interceptor.INetworkInterceptor
 import com.google.gson.Gson
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,18 +17,28 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object CommonMoviesDataModule {
-    @Provides
-    @Singleton
-    fun providesMoviesAPI(
-        client: OkHttpClient,
-        gson: Gson
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(com.abdelrahman.common_data.BuildConfig.TMDB_SERVER_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .client(client)
-            .build()
+abstract class CommonMoviesDataModule {
+    companion object {
+        @Provides
+        @Singleton
+        fun providesMoviesAPI(
+            client: OkHttpClient,
+            gson: Gson
+        ): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl(com.abdelrahman.common_data.BuildConfig.TMDB_SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
+                .build()
+        }
     }
+
+    @Binds
+    @Singleton
+    abstract fun bindsErrorModel(moviesErrorModel: ErrorParsing): IErrorModel
+
+    @Binds
+    @Singleton
+    abstract fun bindsInterceptor(moviesInterceptor: MoviesInterceptor): INetworkInterceptor
 
 }

@@ -1,9 +1,9 @@
-package com.abdelrahman.movies_data.remote
+package com.abdelrahman.common_data.remote
 
+import com.abdelrahman.common_data.remote.models.MoviesErrorModel
 import com.abdelrahman.data.remote_datasource.error.IErrorModel
 import com.abdelrahman.data.remote_datasource.models.ApiErrorModel
 import com.abdelrahman.data.utils.parseJson
-import com.abdelrahman.movies_data.models.MoviesErrorModel
 import javax.inject.Inject
 
 class ErrorParsing @Inject constructor() : IErrorModel {

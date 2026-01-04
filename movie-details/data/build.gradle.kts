@@ -1,27 +1,22 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.kotlinAndroidKsp)
-    alias(libs.plugins.kotlin.serialization)
 
 }
 
 android {
-    namespace = "com.abdelrahman.innovation_task"
+    namespace = "com.abdelrahman.movie_details_data"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.abdelrahman.innovation_task"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -40,30 +35,18 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.bundles.android.compose)
+    implementation(libs.bundles.networking)
+    testImplementation(libs.bundles.unitTest)
+    implementation(libs.bundles.room)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    ksp(libs.room.compiler)
+    implementation(project(":movie-details:domain"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
-    implementation(project(":core:presentation"))
     implementation(project(":common-movies:data"))
-
-    implementation(project(":movies-list:data"))
-    implementation(project(":movies-list:domain"))
-    implementation(project(":movies-list:presentation"))
-    implementation(project(":movie-details:data"))
-    implementation(project(":movie-details:domain"))
-    implementation(project(":movie-details:presentation"))
-
-    implementation(libs.kotlinx.serialization.json)
 }
