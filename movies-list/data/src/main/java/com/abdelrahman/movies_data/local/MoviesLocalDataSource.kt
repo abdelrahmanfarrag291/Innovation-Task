@@ -11,7 +11,12 @@ class MoviesLocalDataSource @Inject constructor(
         moviesDao.insertMoves(movies)
     }
 
-    override suspend fun getAllMovies(): List<MoviesEntity> {
-        return moviesDao.getCachedMovies()
+    override suspend fun getAllMovies(page: Int): List<MoviesEntity> {
+        val offset =page * 20
+        return moviesDao.getCachedMovies(20, offset)
+    }
+
+    override suspend fun clearAllMovies() {
+        moviesDao.deleteAll()
     }
 }

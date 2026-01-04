@@ -12,17 +12,19 @@ fun MovieResponse.asMovieEntity(): MoviesEntity {
         voteCount = voteCount,
         voteAverage = voteAverage,
         backdropPath = backdropPath,
-        posterPath = posterPath
+        posterPath = posterPath,
+        overview = overview
     )
 }
 
-fun MoviesEntity.asMovie(): Movie{
+fun MoviesEntity.asMovie(): Movie {
     return Movie(
         movieId = movieId,
         movieName = movieName,
         voteCount = voteCount,
         voteAverage = voteAverage,
-        backdropPath = backdropPath,
-        posterPath = posterPath
+        backdropPath = "https://image.tmdb.org/t/p/w500/$backdropPath",
+        posterPath = "https://image.tmdb.org/t/p/w154/$posterPath",
+        overview = overview
     )
 }

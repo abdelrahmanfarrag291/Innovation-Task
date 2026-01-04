@@ -30,7 +30,7 @@ class MoviesLocalDataSourceShould {
         //fakeMoviesDao.insertMoves(listOf(MoviesEntity(1), MoviesEntity(2)))
         mMoviesLocalDataSource.saveAllMovies(listOf(MoviesEntity(1), MoviesEntity(2)))
         val expected = listOf(MoviesEntity(1), MoviesEntity(2))
-        val actual = mMoviesLocalDataSource.getAllMovies()
+        val actual = mMoviesLocalDataSource.getAllMovies(1)
         assertEquals(actual, expected)
     }
 }

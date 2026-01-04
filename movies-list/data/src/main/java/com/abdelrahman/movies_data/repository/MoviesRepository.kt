@@ -19,9 +19,9 @@ class MoviesRepository @Inject constructor(
     private val iMoviesLocalDataSource: IMoviesLocalDataSource,
     private val moviesRemoteDataSource: MoviesRemoteDataSource
 ) : IMoviesRepository {
-    override suspend fun getMovies(): Flow<DataState<MoviesDTO>> {
+    override suspend fun getMovies(page: Int): Flow<DataState<MoviesDTO>> {
 
-        val moviesDataState = when (val moviesResult = moviesRemoteDataSource.getMovies()) {
+        val moviesDataState = when (val moviesResult = moviesRemoteDataSource.getMovies(page)) {
             is Result.ResultError -> onMoviesResultError(moviesResult.error)
             is Result.ResultNoInternetConnection -> onMoviesNoInternetConnection()
             is Result.ResultSuccess<MoviesResponse> -> onMoviesSuccess(moviesResult.data)
@@ -39,15 +39,18 @@ class MoviesRepository @Inject constructor(
             result = MoviesDTO(
                 currentPage = data.page,
                 totalPages = data.totalPages,
-                moviesList = iMoviesLocalDataSource.getAllMovies().map {
-                    return@map it.asMovie()
-                }
+                moviesList =
+                    iMoviesLocalDataSource.getAllMovies(
+                        data.page ?: 1
+                    ).map {
+                        return@map it.asMovie()
+                    } as ArrayList
             )
         )
     }
 
     private suspend fun onMoviesNoInternetConnection(): DataState<MoviesDTO> {
-        val getCachedMovies = iMoviesLocalDataSource.getAllMovies()
+        val getCachedMovies = iMoviesLocalDataSource.getAllMovies(1)
         return if (getCachedMovies.isEmpty()) {
             DataState.DataError(errorModels = ErrorModels.NoInternetConnectionError)
         } else {
@@ -57,7 +60,7 @@ class MoviesRepository @Inject constructor(
                     currentPage = 1,
                     moviesList = getCachedMovies.map {
                         return@map it.asMovie()
-                    }
+                    } as ArrayList
                 ))
         }
     }

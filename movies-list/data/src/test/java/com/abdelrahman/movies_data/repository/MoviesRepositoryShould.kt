@@ -8,6 +8,8 @@ import com.abdelrahman.domain.models.StringWrapper
 import com.abdelrahman.movies_data.local.FakeMoviesDao
 import com.abdelrahman.movies_data.local.MoviesLocalDataSource
 import com.abdelrahman.movies_data.local.database.MoviesEntity
+import com.abdelrahman.movies_data.mapper.asMovie
+import com.abdelrahman.movies_data.mapper.asMovieEntity
 import com.abdelrahman.movies_data.models.MovieResponse
 import com.abdelrahman.movies_data.models.MoviesResponse
 import com.abdelrahman.movies_data.remote.MoviesRemoteDataSource
@@ -49,36 +51,35 @@ class MoviesRepositoryShould {
             errorCode = null,
             error = StringWrapper.FromString("error")
         )
-        whenever(moviesRemoteDataSource.getMovies()).thenReturn(moviesResult)
+        whenever(moviesRemoteDataSource.getMovies(1)).thenReturn(moviesResult)
         val expected = DataState.DataError(
             errorModels = ErrorModels.GeneralError(
                 iconRes = R.drawable.ic_no_internet,
                 error = moviesResult.error!!
             )
         )
-        val actual = mIMoviesRepository.getMovies().first()
+        val actual = mIMoviesRepository.getMovies(1).first()
         assertEquals(expected, actual)
     }
 
     @Test
     fun `call movies returns no internet connection while there were save data , then should return data state success with saved movies`() =
         runTest {
+            val movieEntity = MoviesEntity(id = 1, movieId = 1)
             val moviesResult =
                 Result.ResultNoInternetConnection(error = StringWrapper.FromResource(R.string.no_internet_connection)) as Result<MoviesResponse>
-            moviesLocalDataSource.saveAllMovies(listOf(MoviesEntity(id = 1, movieId = 1)))
-            whenever(moviesRemoteDataSource.getMovies()).thenReturn(moviesResult)
+            moviesLocalDataSource.saveAllMovies(listOf(movieEntity))
+            whenever(moviesRemoteDataSource.getMovies(1)).thenReturn(moviesResult)
             val expected = DataState.DataSuccess(
                 result = MoviesDTO(
                     totalPages = 1,
                     currentPage = 1,
-                    moviesList = listOf(
-                        Movie(
-                            movieId = 1
-                        )
+                    moviesList = arrayListOf(
+                        movieEntity.asMovie()
                     )
                 )
             )
-            val actual = mIMoviesRepository.getMovies().first()
+            val actual = mIMoviesRepository.getMovies(1).first()
             assertEquals(expected, actual)
         }
 
@@ -87,37 +88,36 @@ class MoviesRepositoryShould {
         runTest {
             val moviesResult =
                 Result.ResultNoInternetConnection(error = StringWrapper.FromResource(R.string.no_internet_connection)) as Result<MoviesResponse>
-            whenever(moviesRemoteDataSource.getMovies()).thenReturn(moviesResult)
+            whenever(moviesRemoteDataSource.getMovies(1)).thenReturn(moviesResult)
             val expected = DataState.DataError(errorModels = ErrorModels.NoInternetConnectionError)
-            val actual = mIMoviesRepository.getMovies().first()
+            val actual = mIMoviesRepository.getMovies(1).first()
             assertEquals(expected, actual)
         }
 
     @Test
     fun `call movies end points returns success then save movies to database and return movies from local datasource`() =
         runTest {
+            val moviesResponse =MovieResponse(originalTitle = "name1")
             val moviesResult = Result.ResultSuccess(
                 data = MoviesResponse(
                     page = 1,
                     totalPages = 1,
-                    movieResponses = listOf(MovieResponse(originalTitle = "name1"))
+                    movieResponses = listOf(moviesResponse)
                 )
             )
-            whenever(moviesRemoteDataSource.getMovies()).thenReturn(moviesResult)
+            whenever(moviesRemoteDataSource.getMovies(1)).thenReturn(moviesResult)
             val expected = DataState.DataSuccess(
                 result = MoviesDTO(
                     totalPages = 1,
                     currentPage = 1,
-                    moviesList = listOf(
-                        Movie(
-                            movieName = "name1"
-                        )
+                    moviesList = arrayListOf(
+                        moviesResponse.asMovieEntity().asMovie()
                     )
                 )
             )
 
 
-            val actual = mIMoviesRepository.getMovies().first()
+            val actual = mIMoviesRepository.getMovies(1).first()
             assertEquals(expected, actual)
         }
 }

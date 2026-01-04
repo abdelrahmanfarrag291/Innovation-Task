@@ -4,5 +4,5 @@ import com.abdelrahman.data.remote_datasource.result.Result
 import com.abdelrahman.movies_data.models.MoviesResponse
 
 interface MoviesRemoteDataSource {
-    suspend fun getMovies(): Result<MoviesResponse>
+    suspend fun getMovies(page: Int): Result<MoviesResponse>
 }

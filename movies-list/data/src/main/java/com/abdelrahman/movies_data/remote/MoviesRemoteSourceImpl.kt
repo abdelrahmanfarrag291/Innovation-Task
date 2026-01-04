@@ -13,9 +13,9 @@ class MoviesRemoteSourceImpl @Inject constructor(
     private val iMoviesAPI: MoviesAPI
 ) : BaseRemoteDataSource(iValidateRemoteSource,iCheckNetworkState), MoviesRemoteDataSource {
 
-    override suspend fun getMovies(): Result<MoviesResponse> {
+    override suspend fun getMovies(page: Int): Result<MoviesResponse> {
         return safeAPICALL {
-            iMoviesAPI.getMovies()
+            iMoviesAPI.getMovies(page)
         }
     }
 }
