@@ -1,15 +1,18 @@
 package com.abdelrahman.innovation_task.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.abdelrahman.innovation_task.navigation.screens.MoviesList
 import com.abdelrahman.movie_detail_presentation.component.MovieDetailsScreen
-import com.abdelrahman.movie_detail_presentation.route.MovieDetails
+import com.abdelrahman.innovation_task.navigation.screens.MovieDetails
+import com.abdelrahman.movie_detail_presentation.viewmodel.MovieDetailsContract
 import com.abdelrahman.movie_detail_presentation.viewmodel.MovieDetailsViewModel
 import com.abdelrahman.movies_list_presentation.ui.MoviesListScreen
 import com.abdelrahman.movies_list_presentation.viewmodel.MoviesListViewModel
@@ -37,8 +40,12 @@ fun AppNavGraph() {
         }
 
         composable<MovieDetails> {
-            val moviesHome = hiltViewModel<MovieDetailsViewModel>()
-            val state by moviesHome.state.collectAsStateWithLifecycle()
+            val movieDetailsViewModel = hiltViewModel<MovieDetailsViewModel>()
+            val state by movieDetailsViewModel.state.collectAsStateWithLifecycle()
+            val id = it.toRoute<MovieDetails>().id
+            LaunchedEffect(Unit) {
+                movieDetailsViewModel.sendEvent(MovieDetailsContract.MovieDetailsEvents.SendMovieId(id))
+            }
             MovieDetailsScreen(
                 movieDetailsDTO = state.movieDetailDto,
                 loadingTypes = state.loadingTypes,

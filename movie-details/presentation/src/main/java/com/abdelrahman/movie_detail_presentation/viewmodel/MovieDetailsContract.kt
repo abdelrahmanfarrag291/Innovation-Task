@@ -10,6 +10,7 @@ import com.abdelrahman.presentation.viewmodel.State
 class MovieDetailsContract {
 
     data class MovieDetailsState(
+        val id : Int?=null,
         val loadingTypes: LoadingTypes= LoadingTypes.None,
         val movieDetailDto : MovieDetailsDTO ?=null,
         val errorModels : ErrorModels?=null
@@ -17,7 +18,8 @@ class MovieDetailsContract {
 
 
     sealed interface MovieDetailsEvents : Event{
-        data object PageOpened : MovieDetailsEvents
+        data class SendMovieId(val id: Int) : MovieDetailsEvents
+        data object GetMovieDetails : MovieDetailsEvents
     }
     sealed interface MovieDetailsOneTimeAction : OneTimeAction
 }

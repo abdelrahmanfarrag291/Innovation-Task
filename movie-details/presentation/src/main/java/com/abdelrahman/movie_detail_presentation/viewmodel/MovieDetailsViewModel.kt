@@ -1,11 +1,8 @@
 package com.abdelrahman.movie_detail_presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.abdelrahman.domain.models.DataState
 import com.abdelrahman.domain.models.ErrorModels
-import com.abdelrahman.movie_detail_presentation.route.MovieDetails
 import com.abdelrahman.movie_details_domain.entity.MovieDetailsDTO
 import com.abdelrahman.movie_details_domain.repository.IGetMovieDetailsRepository
 import com.abdelrahman.presentation.LoadingTypes
@@ -16,13 +13,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val iGetMovieDetailsRepository: IGetMovieDetailsRepository,
-    private val mSavedStateHandle: SavedStateHandle
+    private val iGetMovieDetailsRepository: IGetMovieDetailsRepository
 ) : BaseViewModel<MovieDetailsContract.MovieDetailsState, MovieDetailsContract.MovieDetailsEvents, MovieDetailsContract.MovieDetailsOneTimeAction>() {
 
-    init {
-        sendEvent(MovieDetailsContract.MovieDetailsEvents.PageOpened)
-    }
 
     override fun createInitialState(): MovieDetailsContract.MovieDetailsState {
         return MovieDetailsContract.MovieDetailsState()
@@ -30,13 +23,22 @@ class MovieDetailsViewModel @Inject constructor(
 
     override fun onEvent(event: MovieDetailsContract.MovieDetailsEvents) {
         when (event) {
-            MovieDetailsContract.MovieDetailsEvents.PageOpened -> onPageOpened()
+            MovieDetailsContract.MovieDetailsEvents.GetMovieDetails -> callGetMovieDetails()
+            is MovieDetailsContract.MovieDetailsEvents.SendMovieId -> {
+                if (currentState.id == null) {
+                    setState {
+                        copy(
+                            id = event.id
+                        )
+                    }
+                    sendEvent(MovieDetailsContract.MovieDetailsEvents.GetMovieDetails)
+                }
+            }
         }
     }
 
-    private fun onPageOpened() {
-        val movieId = mSavedStateHandle.toRoute<MovieDetails>()
-        movieId.id.let {
+    private fun callGetMovieDetails() {
+        currentState.id?.let {
             viewModelScope.launch {
                 setState {
                     copy(

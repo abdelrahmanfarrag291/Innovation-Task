@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.android.compose)
+    testImplementation(libs.bundles.unitTest)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.android)
     implementation(project(":core:presentation"))

@@ -7,7 +7,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<
@@ -34,6 +36,7 @@ abstract class BaseViewModel<
 
     init {
         subscribeToEvents()
+
     }
 
     private fun subscribeToEvents() {
@@ -51,7 +54,7 @@ abstract class BaseViewModel<
         }
     }
 
-    protected fun sendEvent(event: EVENT) {
+    fun sendEvent(event: EVENT) {
         viewModelScope.launch {
             _events.emit(event)
         }

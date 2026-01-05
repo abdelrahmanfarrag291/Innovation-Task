@@ -1,4 +1,4 @@
-package com.abdelrahman.movie_detail_presentation.route
+package com.abdelrahman.innovation_task.navigation.screens
 
 import kotlinx.serialization.Serializable
 
