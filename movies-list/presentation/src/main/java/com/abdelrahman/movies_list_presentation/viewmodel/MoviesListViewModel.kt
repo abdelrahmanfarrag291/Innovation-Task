@@ -96,7 +96,6 @@ class MoviesListViewModel @Inject constructor(
         if (currentState.loadingTypes == LoadingTypes.None) {
             setState {
                 copy(
-                    moviesDTO = null,
                     moviesList = arrayListOf()
                 )
             }

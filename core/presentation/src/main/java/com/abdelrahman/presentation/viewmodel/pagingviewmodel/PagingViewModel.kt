@@ -42,7 +42,7 @@ abstract class PagingViewModel<STATE : State, EVENT : Event, ONE_TIME_ACTION : O
         when (event) {
             PagingEvents.OnLoadNextPage -> onLoadNextPage()
             PagingEvents.OnPullToRefresh -> {
-                updatePagingState(1, _pagingState.value.totalPages)
+                updatePagingState(null, null)
                 onPullToRefresh()
             }
         }
@@ -88,7 +88,7 @@ abstract class PagingViewModel<STATE : State, EVENT : Event, ONE_TIME_ACTION : O
         }
     }
 
-    protected fun sendEvent(event: EVENT) {
+    fun sendEvent(event: EVENT) {
         val newEvent = event
         viewModelScope.launch {
             _events.emit(newEvent)

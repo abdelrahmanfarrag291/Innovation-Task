@@ -13,9 +13,8 @@ import com.abdelrahman.presentation.viewmodel.pagingviewmodel.PagingState
 object MoviesListContract {
 
     data class MoviesState(
-        val moviesDTO: MoviesDTO? = null,
         val moviesList: MutableList<Movie>? = mutableListOf(),
-        val loadingTypes: LoadingTypes = LoadingTypes.FullScreenLoading,
+        val loadingTypes: LoadingTypes = LoadingTypes.None,
         val errorModels: ErrorModels? = null
     ) : State
 

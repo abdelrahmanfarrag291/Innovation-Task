@@ -51,4 +51,5 @@ dependencies {
     implementation(project(":core:presentation"))
     implementation(project(":movies-list:domain"))
     implementation(project(":core:domain"))
+    testImplementation(libs.bundles.unitTest)
 }
