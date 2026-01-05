@@ -1,1 +1,40 @@
-/build
+# ===== Gradle =====
+.gradle/
+build/
+**/build/
+
+# ===== Local config =====
+local.properties
+sdk.dir
+ndk.dir
+
+# ===== IntelliJ / Android Studio =====
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+
+# ===== Logs =====
+*.log
+
+# ===== Kotlin =====
+.kotlin/
+
+# ===== Firebase =====
+google-services.json
+firebase.json
+
+# ===== Fastlane =====
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# ===== Temporary =====
+*.tmp
+*.swp

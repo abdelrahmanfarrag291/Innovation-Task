@@ -1,0 +1,3 @@
+package com.abdelrahman.data.local_datasource
+
+interface IBaseLocalDataSource

@@ -21,4 +21,17 @@ dependencyResolutionManagement {
 
 rootProject.name = "Innovation-Task"
 include(":app")
- 
+include(":core")
+include(":core:data")
+include(":core:domain")
+include(":movies-list")
+include(":movies-list:data")
+include(":movies-list:domain")
+include(":core:presentation")
+include(":movies-list:presentation")
+include(":common-movies")
+include(":common-movies:data")
+include(":movie-details")
+include(":movie-details:data")
+include(":movie-details:domain")
+include(":movie-details:presentation")

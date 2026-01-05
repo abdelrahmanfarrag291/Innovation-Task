@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rating">Rating</string>
+    <string name="rating_format">%1$.2f</string>
+
+</resources>
