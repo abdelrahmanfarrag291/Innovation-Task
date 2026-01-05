@@ -1,22 +1,24 @@
 package com.abdelrahman.movies_data.di
 
-import com.abdelrahman.data.remote_datasource.error.IErrorModel
-import com.abdelrahman.data.remote_datasource.interceptor.INetworkInterceptor
-import com.abdelrahman.movies_data.interceptor.MoviesInterceptor
-import com.abdelrahman.movies_data.models.MoviesErrorModel
-import com.abdelrahman.movies_data.remote.ErrorParsing
+import android.content.Context
+import androidx.room.Room
+import com.abdelrahman.movies_data.local.IMoviesLocalDataSource
+import com.abdelrahman.movies_data.local.MoviesLocalDataSource
+import com.abdelrahman.movies_data.local.database.MoviesDao
+import com.abdelrahman.movies_data.local.database.MoviesDatabase
 import com.abdelrahman.movies_data.remote.MoviesAPI
 import com.abdelrahman.movies_data.remote.MoviesRemoteDataSource
 import com.abdelrahman.movies_data.remote.MoviesRemoteSourceImpl
-import com.google.gson.Gson
+import com.abdelrahman.movies_data.repository.MoviesRepository
+import com.abdelrahman.movies_data.utils.Constants.Database.MOVIES_DB
+import com.abdelrahman.movies_list_domain.repository.IMoviesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
 
@@ -28,25 +30,39 @@ abstract class MoviesDataModule {
         @Provides
         @Singleton
         fun providesMoviesAPI(
-            client: OkHttpClient,
-            gson: Gson
+            retrofit: Retrofit
         ): MoviesAPI {
-            return Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client)
-                .build()
+            return retrofit
                 .create()
         }
+
+        @Provides
+        @Singleton
+        fun provideDatabase(
+            @ApplicationContext context: Context
+        ): MoviesDatabase =
+            Room.databaseBuilder(
+                context,
+                MoviesDatabase::class.java,
+                MOVIES_DB
+            )
+                .fallbackToDestructiveMigration()
+                .build()
+
+        @Provides
+        fun provideMovieDao(
+            database: MoviesDatabase
+        ): MoviesDao = database.moviesDao()
     }
 
     @Binds
     @Singleton
-    abstract fun bindsInterceptor(moviesInterceptor: MoviesInterceptor): INetworkInterceptor
+    abstract fun bindsMoviesRepository(moviesRepository: MoviesRepository): IMoviesRepository
 
     @Binds
     @Singleton
-    abstract fun bindsErrorModel(moviesErrorModel: ErrorParsing): IErrorModel
+    abstract fun bindsMoviesLocalDataSource(moviesLocalDataSource: MoviesLocalDataSource): IMoviesLocalDataSource
+
 
     @Binds
     @Singleton

@@ -1,7 +1,6 @@
 package com.abdelrahman.data.remote_datasource.di
 
 import com.abdelrahman.data.BuildConfig
-import com.abdelrahman.data.remote_datasource.interceptor.INetworkInterceptor
 import com.abdelrahman.data.utils.Constants
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -9,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
@@ -38,7 +38,7 @@ object NetworkModule {
     @Singleton
     fun providesOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        iNetworkInterceptor: INetworkInterceptor
+        iNetworkInterceptor: Interceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(Constants.OkHTTPConstants.CONNECT_TIMEOUT, TimeUnit.SECONDS)

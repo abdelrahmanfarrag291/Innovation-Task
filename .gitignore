@@ -1,0 +1,39 @@
+# ===== Gradle =====
+.gradle/
+build/
+**/build/
+
+# ===== Android Studio =====
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea/caches/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+# ===== Local config =====
+local.properties
+
+# ===== Logs =====
+*.log
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+
+# ===== APK / AAB =====
+*.apk
+*.aab
+
+# ===== Native / CMake =====
+.cxx/
+
+# ===== Kotlin =====
+*.kotlin_module
+
+# ===== KSP / KAPT generated =====
+**/ksp/
+**/generated/

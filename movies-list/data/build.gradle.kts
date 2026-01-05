@@ -11,10 +11,8 @@ android {
     compileSdk {
         version = release(36)
     }
-
     defaultConfig {
         minSdk = 24
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -28,6 +26,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -39,9 +38,16 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.hilt.android)
     implementation(libs.bundles.networking)
     testImplementation(libs.bundles.unitTest)
+    implementation(libs.bundles.room)
+    implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    ksp(libs.room.compiler)
+    implementation(project(":movies-list:domain"))
     implementation(project(":core:data"))
+    implementation(project(":core:domain"))
+    implementation(project(":common-movies:data"))
+
+
 }
