@@ -23,7 +23,7 @@ class MoviesRepository @Inject constructor(
 
         val moviesDataState = when (val moviesResult = moviesRemoteDataSource.getMovies(page)) {
             is Result.ResultError -> onMoviesResultError(moviesResult.error)
-            is Result.ResultNoInternetConnection -> onMoviesNoInternetConnection()
+            is Result.ResultNoInternetConnection -> onMoviesNoInternetConnection(page)
             is Result.ResultSuccess<MoviesResponse> -> onMoviesSuccess(moviesResult.data)
         }
         return flow { emit(moviesDataState) }
@@ -49,19 +49,21 @@ class MoviesRepository @Inject constructor(
         )
     }
 
-    private suspend fun onMoviesNoInternetConnection(): DataState<MoviesDTO> {
-        val getCachedMovies = iMoviesLocalDataSource.getAllMovies(0)
+    private suspend fun onMoviesNoInternetConnection(page: Int): DataState<MoviesDTO> {
+        val getCachedMovies =
+            iMoviesLocalDataSource.getAllMovies(page - 1).map { it.asMovie() }
+                .toCollection(ArrayList())
+        val totalPages = (getCachedMovies.size + 10) / 10
         return if (getCachedMovies.isEmpty()) {
             DataState.DataError(errorModels = ErrorModels.NoInternetConnectionError)
         } else {
             DataState.DataSuccess(
                 result = MoviesDTO(
-                    totalPages = 1,
-                    currentPage = 1,
-                    moviesList = getCachedMovies.map {
-                        return@map it.asMovie()
-                    } as ArrayList
-                ))
+                    totalPages = totalPages,
+                    currentPage = page,
+                    moviesList = getCachedMovies
+                )
+            )
         }
     }
 

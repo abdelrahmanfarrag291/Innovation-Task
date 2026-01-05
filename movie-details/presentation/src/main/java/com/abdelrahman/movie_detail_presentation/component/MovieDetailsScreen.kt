@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -44,8 +45,11 @@ fun MovieDetailsScreen(
     loadingTypes: LoadingTypes = LoadingTypes.None,
     errorModels: ErrorModels? = null
 ) {
+    val context = LocalContext.current
     if (errorModels != null) {
-
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(text = errorModels.errorMessage.getStringFromWrapper(context))
+        }
     } else {
         if (loadingTypes == LoadingTypes.FullScreenLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

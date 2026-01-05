@@ -1,5 +1,6 @@
 package com.abdelrahman.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,7 +36,6 @@ fun <T> PagingComponent(
     onRefresh: () -> Unit,
     listItem: @Composable (T) -> Unit
 ) {
-    val onLoadMoreState by rememberUpdatedState(onLoadMore)
     val onRefresh by rememberUpdatedState(onRefresh)
     var isRefreshing by remember {
         mutableStateOf(loadingTypes == LoadingTypes.PullToRefreshLoading)
@@ -43,24 +43,34 @@ fun <T> PagingComponent(
     val pullRefreshState = rememberPullToRefreshState()
 
     val lazyListState = rememberLazyListState()
-    LaunchedEffect(lazyListState) {
+    val onLoadMoreState by rememberUpdatedState(onLoadMore)
+
+    LaunchedEffect(lazyListState, source.size) {
         snapshotFlow {
-            lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+            Triple(
+                lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index,
+                lazyListState.layoutInfo.totalItemsCount,
+                source.size
+            )
         }
             .distinctUntilChanged()
-            .collect { lastVisibleIndex ->
-                if (lastVisibleIndex == null) return@collect
-
+            .collect { (lastVisibleIndex, _, size) ->
+                if (lastVisibleIndex == null || size == 0) return@collect
                 val shouldLoadMore =
-                    lastVisibleIndex >= source.size - 2 &&
-                            source.isNotEmpty()
+                    lastVisibleIndex >= size - 2
 
-                if (shouldLoadMore) {
+                if (shouldLoadMore && !isRefreshing && loadingTypes == LoadingTypes.None) {
                     onLoadMoreState()
                 }
             }
     }
 
+
+    LaunchedEffect(isRefreshing) {
+        if (isRefreshing) {
+            lazyListState.scrollToItem(0)
+        }
+    }
     if (errorModel != null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             PagingError(

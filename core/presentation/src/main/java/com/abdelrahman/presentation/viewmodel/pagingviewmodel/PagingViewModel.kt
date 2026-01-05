@@ -68,7 +68,7 @@ abstract class PagingViewModel<STATE : State, EVENT : Event, ONE_TIME_ACTION : O
         val pagingState = _pagingState.value
         val mCurrentPage = pagingState.currentPage ?: 1
         val totalPages = pagingState.totalPages ?: 1
-        if (mCurrentPage <= totalPages) {
+        if (mCurrentPage < totalPages) {
             onRequestNextPage((pagingState.currentPage ?: 0) + 1)
         }
     }
