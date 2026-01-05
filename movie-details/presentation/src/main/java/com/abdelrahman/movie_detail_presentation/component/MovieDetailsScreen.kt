@@ -1,9 +1,11 @@
 package com.abdelrahman.movie_detail_presentation.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,17 +30,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.abdelrahman.domain.models.ErrorModels
 import com.abdelrahman.movie_details_domain.entity.MovieDetailsDTO
 import com.abdelrahman.presentation.LoadingTypes
 import com.abdelrahman.presentation.R
+import com.abdelrahman.presentation.components.ErrorComponent
 
 @Composable
 fun MovieDetailsScreen(
@@ -45,10 +50,9 @@ fun MovieDetailsScreen(
     loadingTypes: LoadingTypes = LoadingTypes.None,
     errorModels: ErrorModels? = null
 ) {
-    val context = LocalContext.current
     if (errorModels != null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(text = errorModels.errorMessage.getStringFromWrapper(context))
+            errorModels.ErrorComponent(Modifier.wrapContentSize())
         }
     } else {
         if (loadingTypes == LoadingTypes.FullScreenLoading) {
@@ -69,6 +73,7 @@ fun MovieDetailsScreen(
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(dimensionResource(R.dimen.dimen_16)))
                     ) {
+
                         AsyncImage(
                             model = movieDetailsDTO.backdropPath,
                             contentDescription = movieDetailsDTO.title,
@@ -177,5 +182,36 @@ fun MovieDetailsScreen(
             }
         }
     }
+}
 
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun Preview_MovieDetailsScreen_StateLoading() {
+    MovieDetailsScreen(
+        loadingTypes = LoadingTypes.FullScreenLoading
+    )
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun Preview_MovieDetailsScreen_StateData() {
+    MovieDetailsScreen(
+        movieDetailsDTO = MovieDetailsDTO(
+            title = "Test 123",
+            tagline = "Welcome to world",
+            overview = "Welcome 335353m53m5m3",
+            genres = listOf("Action", "Comedy")
+        ),
+        loadingTypes = LoadingTypes.None
+    )
+}
+
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun Preview_MovieDetailsScreen_StateError() {
+    MovieDetailsScreen(
+        movieDetailsDTO = null,
+        errorModels = ErrorModels.NoInternetConnectionError
+    )
 }

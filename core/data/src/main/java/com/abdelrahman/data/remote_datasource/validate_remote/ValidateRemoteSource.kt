@@ -43,7 +43,7 @@ class ValidateRemoteSource @Inject constructor(
                     )
                 }
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Result.ResultError(
                 errorCode = GENERAL_ERROR_CODE,
                 error = StringWrapper.FromResource(R.string.something_went_wrong)

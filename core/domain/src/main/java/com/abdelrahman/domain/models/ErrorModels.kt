@@ -24,7 +24,6 @@ sealed class ErrorModels(val errorMessage: StringWrapper,
             R.string.no_data,
 
             ),
-        R.drawable.ic_no_internet
-        /**TODO REMOVE THIS WITH RIGHT ICON AS I HAD SOME CONNECTIVITY ISSUES**/
+        R.drawable.ic_no_data
     )
 }

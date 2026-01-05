@@ -73,10 +73,7 @@ fun <T> PagingComponent(
     }
     if (errorModel != null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            PagingError(
-                Modifier
-                    .wrapContentSize(), errorModel
-            )
+            errorModel.ErrorComponent(Modifier.wrapContentSize())
         }
     } else {
         if (loadingTypes == LoadingTypes.FullScreenLoading) {
@@ -120,12 +117,4 @@ fun <T> PagingComponent(
         }
     }
 
-}
-
-@Composable
-fun PagingError(modifier: Modifier, errorModels: ErrorModels) {
-    Text(
-        modifier = modifier,
-        text = errorModels.errorMessage.getStringFromWrapper(LocalContext.current)
-    )
 }

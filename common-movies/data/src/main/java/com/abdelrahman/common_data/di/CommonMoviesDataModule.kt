@@ -3,13 +3,13 @@ package com.abdelrahman.common_data.di
 import com.abdelrahman.common_data.interceptor.MoviesInterceptor
 import com.abdelrahman.common_data.remote.ErrorParsing
 import com.abdelrahman.data.remote_datasource.error.IErrorModel
-import com.abdelrahman.data.remote_datasource.interceptor.INetworkInterceptor
 import com.google.gson.Gson
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -39,6 +39,6 @@ abstract class CommonMoviesDataModule {
 
     @Binds
     @Singleton
-    abstract fun bindsInterceptor(moviesInterceptor: MoviesInterceptor): INetworkInterceptor
+    abstract fun bindsInterceptor(moviesInterceptor: MoviesInterceptor): Interceptor
 
 }

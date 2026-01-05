@@ -25,12 +25,6 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
 
-/**
- * MoviesRepository is to decide where to get the data from either [com.abdelrahman.movies_data.local.MoviesLocalDataSource] nor [com.abdelrahman.movies_data.remote.MoviesRemoteDataSource]
- *
- *  ## Test cases
- *  1-when Result is [com.abdelrahman.data.remote_datasource.result.Result.ResultSuccess] then it should save data to [com.abdelrahman.movies_data.local.database.MoviesDatabase] AND then return results from the [com.abdelrahman.movies_data.local.database.MoviesDatabase]
- */
 class MoviesRepositoryShould {
 
     //SUT
@@ -54,7 +48,7 @@ class MoviesRepositoryShould {
         whenever(moviesRemoteDataSource.getMovies(1)).thenReturn(moviesResult)
         val expected = DataState.DataError(
             errorModels = ErrorModels.GeneralError(
-                iconRes = R.drawable.ic_no_internet,
+                iconRes = R.drawable.ic_error,
                 error = moviesResult.error!!
             )
         )

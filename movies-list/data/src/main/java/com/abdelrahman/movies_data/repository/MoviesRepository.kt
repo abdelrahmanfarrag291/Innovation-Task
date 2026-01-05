@@ -11,8 +11,10 @@ import com.abdelrahman.movies_data.models.MoviesResponse
 import com.abdelrahman.movies_data.remote.MoviesRemoteDataSource
 import com.abdelrahman.movies_list_domain.entity.MoviesDTO
 import com.abdelrahman.movies_list_domain.repository.IMoviesRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class MoviesRepository @Inject constructor(
@@ -26,7 +28,9 @@ class MoviesRepository @Inject constructor(
             is Result.ResultNoInternetConnection -> onMoviesNoInternetConnection(page)
             is Result.ResultSuccess<MoviesResponse> -> onMoviesSuccess(moviesResult.data)
         }
-        return flow { emit(moviesDataState) }
+        return flow { emit(moviesDataState) }.flowOn(
+            Dispatchers.IO
+        )
     }
 
     private suspend fun onMoviesSuccess(data: MoviesResponse): DataState<MoviesDTO> {
@@ -71,7 +75,7 @@ class MoviesRepository @Inject constructor(
         return DataState.DataError(
             errorModels = ErrorModels.GeneralError(
                 error = error!!,
-                iconRes = com.abdelrahman.domain.R.drawable.ic_no_internet
+                iconRes = com.abdelrahman.domain.R.drawable.ic_error
             )
         )
     }
