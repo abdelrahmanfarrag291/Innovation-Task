@@ -1,75 +1,40 @@
-# === Android / Gradle ===
+# ===== Gradle =====
 .gradle/
 build/
-*/build/
-captures/
-.externalNativeBuild/
+**/build/
 
-# Gradle cache
-*/.gradle/
-!gradle/wrapper/gradle-wrapper.jar
-
-# Gradle Wrapper jar
-gradle-wrapper.jar
-
-# Local configuration
+# ===== Local config =====
 local.properties
+sdk.dir
+ndk.dir
+
+# ===== IntelliJ / Android Studio =====
 .idea/
 *.iml
-*.hprof
-
-# Kotlin
-*.kotlin_module
-
-# KSP / kapt generated files
-ksp/
-kapt/
-generated/
-*.kapt*
-
-# Android Studio
-*.apk
-*.ap_
-*.dex
-*.class
-*.jar
-*.keystore
-*.lock
-*.log
-*.tmp
-*.orig
-
-# Jetpack Compose previews
-*.preview/
-
-# MacOS
-.DS_Store
-
-# Windows
-Thumbs.db
-ehthumbs.db
-
-# NDK / CMake
-obj/
-cmake-build-debug/
-
-# JetBrains IDE
-.idea_modules/
+*.ipr
 *.iws
+out/
 
-# Logs
+# ===== OS files =====
+.DS_Store
+Thumbs.db
 
-# Testing
-test-results/
-*.junit.xml
-*.tap
+# ===== Logs =====
+*.log
 
-# Lint / reports
-lint/
-reports/
-report/
-*.html
-*.xml
+# ===== Kotlin =====
+.kotlin/
 
-# Firebase / Google Services (optional, ignore secrets)
+# ===== Firebase =====
 google-services.json
+firebase.json
+
+# ===== Fastlane =====
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# ===== Temporary =====
+*.tmp
+*.swp

@@ -43,6 +43,9 @@ android {
     buildFeatures {
         compose = true
     }
+    android {
+        ndkVersion ="29.0.14206865"
+    }
 }
 
 dependencies {
